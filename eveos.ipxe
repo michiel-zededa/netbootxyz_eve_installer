@@ -1,0 +1,71 @@
+#!ipxe
+
+  
+
+# EVE (Edge Virtualization Engine) OS
+
+# https://lfedge.org/projects/eve/
+
+  
+
+:eveos
+
+set os EVE OS
+
+  
+
+menu ${os} Install EVE OS
+
+item --gap WARNING: Installing EVE OS will automatically overwrite all data on disk
+
+item current ${space} ${os} Installer
+
+choose eve_version || goto eve_exit
+
+goto eve_boot
+
+  
+
+:eve_boot
+
+set url https://github.com/lf-edge/eve/releases/download/snapshot/amd64.
+
+# set url https://10.0.0.2/eve/releases/download/snapshot/amd64.
+
+# set eve_args eve_soft_serial=${ip} eve_reboot_after_install
+
+set eve_args eve_soft_serial=${ip} eve_install_server=zedcontrol.zededa.net eve_reboot_after_install
+
+  
+
+# you are not expected to go below this line
+
+set console console=ttyS0 console=ttyS1 console=ttyS2 console=ttyAMA0 console=ttyAMA1 console=tty0
+
+set installer_args root=/initrd.image find_boot=netboot overlaytmpfs fastboot
+
+  
+
+# you need to be this ^ tall to go beyond this point
+
+kernel ${url}kernel ${eve_args} ${installer_args} ${console} ${platform_tweaks} initrd=amd64.initrd.img initrd=amd64.installer.img initrd=amd64.initrd.bits initrd=amd64.rootfs.img
+
+initrd ${url}initrd.img
+
+initrd ${url}installer.img
+
+initrd ${url}initrd.bits
+
+initrd ${url}rootfs.img
+
+boot
+
+goto eve_exit
+
+  
+
+:eve_exit
+
+clear menu
+
+exit 0
