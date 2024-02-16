@@ -16,7 +16,7 @@ set os EVE OS
 
 menu ${os} Install EVE OS
 
-item --gap WARNING: Installing EVE OS will automatically overwrite all data on disk
+item --gap WARNING: Installing EVE OS will automatically OVERWRITE all data on disk
 
 item current ${space} ${os} Installer
 
